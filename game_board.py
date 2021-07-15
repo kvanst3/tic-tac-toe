@@ -1,29 +1,30 @@
 class GameBoard():
 
     def __init__(self):
-        self.data_dict = {
-            'A1': '   ',
-            'A2': '   ',
-            'A3': '   ',
-            'B1': '   ',
-            'B2': '   ',
-            'B3': '   ',
-            'C1': '   ',
-            'C2': '   ',
-            'C3': '   '
-        }
+        self.data_arr = [
+            '   ',
+            '   ',
+            '   ',
+            '   ',
+            '   ',
+            '   ',
+            '   ',
+            '   ',
+            '   '
+        ]
         self.board = """
-                {A1}|{A2}|{A3}
+                {0}|{1}|{2}
                 -----------
-                {B1}|{B2}|{B3}
+                {3}|{4}|{5}
                 -----------
-                {C1}|{C2}|{C3}
-                """.format(**self.data_dict)
+                {6}|{7}|{8}
+                """
 
         self.print_board()
 
     def print_board(self):
-        print(f'{self.board}')
+        print(f'{self.board.format(*self.data_arr)}')
 
     def player_action(self, player, position):
-        self.data_dict[position] = player.symbol
+        self.data_arr[position] = f' {player.symbol} '
+        self.print_board()
