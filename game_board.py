@@ -15,7 +15,6 @@ class GameBoard():
                 """
 
         self.arr_deconstruct()
-        self.print_board()
 
     def arr_deconstruct(self):
         self.data_arr = [j.center(3) for i in self.three_d_data for j in i]
@@ -27,6 +26,12 @@ class GameBoard():
     def player_action(self, player, x, y):
         self.three_d_data[y][x] = player.symbol
         self.print_board()
+
+    def tick_in_cell(self, x, y):
+        if self.three_d_data[y][x] != ' ':
+            return True
+        else:
+            return False
 
     def check_if_winner(self, player):
         # this could be improved by taking the position of last play and check for win. but for now we'll roll with inefficiency
