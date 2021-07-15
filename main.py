@@ -13,6 +13,6 @@ p2 = Player('0')
 
 gb = GameBoard()
 
-gb.player_action(p1, 4)
+gb.player_action(p1, 1, 2)
 
 
