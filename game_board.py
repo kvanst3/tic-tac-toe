@@ -1,7 +1,10 @@
+import numpy as np
+
+
 class GameBoard():
 
     def __init__(self):
-        self.three_d_data = [[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']]
+        self.three_d_data = np.array([[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']])
         self.data_arr = []
         self.board = """
                 {0}|{1}|{2}
@@ -24,3 +27,20 @@ class GameBoard():
     def player_action(self, player, x, y):
         self.three_d_data[y][x] = player.symbol
         self.print_board()
+
+    def check_if_winner(self, player):
+        # this could be improved by taking the position of last play and check for win. but for now we'll roll with inefficiency
+        for i in range(3):
+            # check if elements in row i are the same
+            if all(j == player.symbol for j in self.three_d_data[i, :]):
+                return True
+            # check if elements in column i are the same
+            elif all(j == player.symbol for j in self.three_d_data[:, i]):
+                return True
+        # check diagonals
+        if all(i == player.symbol for i in self.three_d_data.diagonal()):
+            return True
+        elif all(i == player.symbol for i in np.fliplr(self.three_d_data).diagonal()):
+            return True
+        else:
+            return False

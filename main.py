@@ -13,6 +13,11 @@ p2 = Player('0')
 
 gb = GameBoard()
 
-gb.player_action(p1, 1, 2)
-
+gb.player_action(p1, 0, 2)
+gb.player_action(p1, 1, 1)
+gb.player_action(p1, 2, 2)
+if gb.check_if_winner(p1):
+    print("you won")
+else:
+    print("not yet")
 
