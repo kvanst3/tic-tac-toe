@@ -24,3 +24,6 @@ class GameBoard():
 
     def print_board(self):
         print(f'{self.board}')
+
+    def player_action(self, player, position):
+        self.data_dict[position] = player.symbol
