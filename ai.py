@@ -46,7 +46,7 @@ class Ai(Player):
             for elem in listOfELem:
                 if elem in setOfElem and elem != ' ':
                     if np.where(listOfELem == ' ')[0].size > 0:
-                        return [i, np.where(listOfELem == ' ')[0][0]]
+                        return [np.where(listOfELem == ' ')[0][0], np.where(listOfELem == ' ')[0][0]]
                 else:
                     setOfElem.append(elem)
             #check invert diagonal
@@ -55,7 +55,7 @@ class Ai(Player):
             for elem in listOfELem:
                 if elem in setOfElem and elem != ' ':
                     if np.where(listOfELem == ' ')[0].size > 0:
-                        return [np.where(listOfELem == ' ')[0][0], i]
+                        return [np.where(listOfELem == ' ')[0][0], 2 - np.where(listOfELem == ' ')[0][0]]
                 else:
                     setOfElem.append(elem)
         
