@@ -24,11 +24,11 @@ class GameBoard():
         print(f'{self.board.format(*self.data_arr)}')
 
     def player_action(self, player, x, y):
-        self.two_d_data[y][x] = player.symbol
+        self.two_d_data[x][y] = player.symbol
         self.print_board()
 
     def tick_in_cell(self, x, y):
-        if self.two_d_data[y][x] != ' ':
+        if self.two_d_data[x][y] != ' ':
             return True
         else:
             return False

@@ -6,16 +6,16 @@ import numpy as np
 
 class Ai(Player):
     
-    def __init__(self):
-        super().__init__()
+    def __init__(self, symbol):
+        super().__init__(symbol)
 
     def random_tick(self, boardgame):
         x = randint(0, 2)
         y = randint(0, 2)
-        if boardgame[x, y] == ' ':
+        if boardgame.two_d_data[x, y] == ' ':
             return [x, y]
         else:
-            self.random_tick(boardgame)
+            return self.random_tick(boardgame)
     
     def determine_move(self, boardgame):
         current_board = boardgame.two_d_data
@@ -26,32 +26,38 @@ class Ai(Player):
             # check if duplicates (non empty) in row. If yes return coordinates
             for elem in listOfELem:
                 if elem in setOfElem and elem != ' ':
-                    return [i, elem]
+                    if np.where(listOfELem == ' ')[0].size > 0:
+                        return [i, np.where(listOfELem == ' ')[0][0]]
                 else:
                     setOfElem.append(elem)
-            #get row
+            #get column
             listOfELem = current_board[:, i]
             setOfElem = []
             # check if duplicates (non empty) in column. If yes return coordinates
             for elem in listOfELem:
                 if elem in setOfElem and elem != ' ':
-                    return [elem, i]
+                    if np.where(listOfELem == ' ')[0].size > 0:
+                        return [np.where(listOfELem == ' ')[0][0], i]
                 else:
                     setOfElem.append(elem)
             # check diagonal
             listOfELem = current_board.diagonal()
-            for elem in listOfELem:
-                    if elem in setOfElem and elem != ' ':
-                        return [i, elem]
-                    else:
-                        setOfElem.append(elem)
-            #check invert diagonal
-            listOfELem = np.fliplr(current_board).diagonal()
+            setOfElem = []
             for elem in listOfELem:
                 if elem in setOfElem and elem != ' ':
-                    return [elem, i]
+                    if np.where(listOfELem == ' ')[0].size > 0:
+                        return [i, np.where(listOfELem == ' ')[0][0]]
+                else:
+                    setOfElem.append(elem)
+            #check invert diagonal
+            listOfELem = np.fliplr(current_board).diagonal()
+            setOfElem = []
+            for elem in listOfELem:
+                if elem in setOfElem and elem != ' ':
+                    if np.where(listOfELem == ' ')[0].size > 0:
+                        return [np.where(listOfELem == ' ')[0][0], i]
                 else:
                     setOfElem.append(elem)
         
-        coord = self.random_tick
+        coord = self.random_tick(boardgame)
         return coord
