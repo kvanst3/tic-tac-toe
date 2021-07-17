@@ -20,44 +20,30 @@ class Ai(Player):
     def determine_move(self, boardgame):
         current_board = boardgame.two_d_data
         for i in range(3):
-            #get row
-            listOfELem = current_board[i, :]
-            setOfElem = []
-            # check if duplicates (non empty) in row. If yes return coordinates
-            for elem in listOfELem:
-                if elem in setOfElem and elem != ' ':
-                    if np.where(listOfELem == ' ')[0].size > 0:
-                        return [i, np.where(listOfELem == ' ')[0][0]]
-                else:
-                    setOfElem.append(elem)
-            #get column
-            listOfELem = current_board[:, i]
-            setOfElem = []
-            # check if duplicates (non empty) in column. If yes return coordinates
-            for elem in listOfELem:
-                if elem in setOfElem and elem != ' ':
-                    if np.where(listOfELem == ' ')[0].size > 0:
-                        return [np.where(listOfELem == ' ')[0][0], i]
-                else:
-                    setOfElem.append(elem)
-            # check diagonal
-            listOfELem = current_board.diagonal()
-            setOfElem = []
-            for elem in listOfELem:
-                if elem in setOfElem and elem != ' ':
-                    if np.where(listOfELem == ' ')[0].size > 0:
-                        return [np.where(listOfELem == ' ')[0][0], np.where(listOfELem == ' ')[0][0]]
-                else:
-                    setOfElem.append(elem)
-            #check invert diagonal
-            listOfELem = np.fliplr(current_board).diagonal()
-            setOfElem = []
-            for elem in listOfELem:
-                if elem in setOfElem and elem != ' ':
-                    if np.where(listOfELem == ' ')[0].size > 0:
-                        return [np.where(listOfELem == ' ')[0][0], 2 - np.where(listOfELem == ' ')[0][0]]
-                else:
-                    setOfElem.append(elem)
+            all_directions = current_board[i, :], current_board[:, i], current_board.diagonal(), np.fliplr(current_board).diagonal()
+            for direction in all_directions:
+                coord = self.player_win_with(direction, current_board, i)
+                if coord != None:
+                    return coord
         
         coord = self.random_tick(boardgame)
         return coord
+
+    def empty_cell(self, listOfELem):
+        np.where(listOfELem == ' ')[0].size > 0
+
+    def player_win_with(self, listOfElem, current_board, i):
+        setOfElem = []
+        for elem in listOfElem:
+            if elem in setOfElem and elem != ' ':
+                if np.where(listOfElem == ' ')[0].size > 0:
+                    if (listOfElem == current_board[i, :]).all():
+                        return [i, np.where(listOfElem == ' ')[0][0]]
+                    elif (listOfElem == current_board[:, i]).all():
+                        return [np.where(listOfElem == ' ')[0][0], i]
+                    elif (listOfElem == current_board.diagonal()).all():
+                        return [np.where(listOfElem == ' ')[0][0], np.where(listOfElem == ' ')[0][0]]
+                    else:
+                        return [np.where(listOfElem == ' ')[0][0], 2 - np.where(listOfElem == ' ')[0][0]]
+            else:
+                setOfElem.append(elem)
